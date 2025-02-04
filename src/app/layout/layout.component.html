@@ -1,0 +1,27 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <div class="sidebar-heading">
+        <strong>Agenda Telefônica</strong>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/cadastro-contato">
+            <span class="material-icons">person_add</span> Cadastro
+        </a>
+        <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/consulta-contato">
+            <span class="material-icons">search</span> Consulta
+        </a>
+        <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/editar-contato">
+            <span class="material-icons">edit</span> Editar
+        </a>
+        <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/favoritos">
+            <span class="material-icons">star</span> Favoritos
+        </a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,8 +1,18 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
+import { LayoutComponent } from './layout/layout.component';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideRouter([
+      {
+        path: '',
+        component: LayoutComponent,
+        children: [
+          { path: 'consulta-contato', loadComponent: () => import('./pages/consulta-contato/consulta-contato.component').then(m => m.ConsultaContatoComponent) },
+          { path: 'cadastro-contato', loadComponent: () => import('./pages/cadastro-contato/cadastro-contato.component').then(m => m.CadastroContatoComponent) }
+        ]
+      }
+    ])
+  ]
 };

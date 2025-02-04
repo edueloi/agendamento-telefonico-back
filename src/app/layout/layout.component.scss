@@ -1,0 +1,73 @@
+#wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+// Sidebar fixo e responsivo
+#sidebar-wrapper {
+  width: 250px;
+  min-height: 100vh;
+  background-color: #343a40;
+  padding-top: 20px;
+  position: fixed;
+  transition: all 0.3s;
+}
+
+// Título do menu
+.sidebar-heading {
+  font-size: 1.3rem;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 15px;
+  border-bottom: 2px solid #555;
+}
+
+// Lista de botões
+.list-group {
+  width: 100%;
+}
+
+// Estilo dos itens do menu
+.list-group-item {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+// Ícones alinhados corretamente
+.material-icons {
+  font-size: 1.5rem;
+}
+
+// Hover nos itens do menu
+.list-group-item:hover {
+  background-color: #495057 !important;
+}
+
+// Conteúdo principal ajustado
+#page-content-wrapper {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 250px;
+  transition: margin 0.3s;
+}
+
+// Responsividade para telas menores
+@media (max-width: 768px) {
+  #sidebar-wrapper {
+    width: 100px;
+  }
+
+  .list-group-item {
+    text-align: center;
+    font-size: 1rem;
+    justify-content: center;
+  }
+
+  #page-content-wrapper {
+    margin-left: 100px;
+  }
+}
