@@ -3,23 +3,24 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContatoService } from '../../services/contato.service';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { ToastrService } from 'ngx-toastr';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-cadastro-contato',
   templateUrl: './cadastro-contato.component.html',
   styleUrls: ['./cadastro-contato.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, NgxMaskDirective] 
 })
 export class CadastroContatoComponent {
-  contatoForm!: FormGroup; // Definindo, mas inicializando no createForm()
+  contatoForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder, 
     private contatoService: ContatoService,
     private toastr: ToastrService
   ) {
-    this.createForm(); // Chamando o método para inicializar o formulário
+    this.createForm();
   }
 
   private createForm(): void {
@@ -34,11 +35,10 @@ export class CadastroContatoComponent {
 
   verificarNumeroAntesDeCadastrar(): void {
     const celular = this.contatoForm.get('celular')?.value;
-  
+
     if (celular) {
       this.contatoService.verificarCelular(celular).subscribe(
         (response) => {
-          console.log(response);
           if (response.includes('Contato pode ser cadastrado')) {
             this.cadastrar();
           }
@@ -49,8 +49,13 @@ export class CadastroContatoComponent {
       );
     }
   }
-  
+
   cadastrar(): void {
+    if (this.contatoForm.invalid) {
+      this.toastr.error('Erro ao cadastrar contato. Verifique os dados e tente novamente.', 'Erro');
+      return;
+    }
+
     if (this.contatoForm.valid) {
       const contato = {
         contatoNome: this.contatoForm.value.nome,
@@ -59,7 +64,7 @@ export class CadastroContatoComponent {
         contatoTelefone: this.contatoForm.value.telefone,
         contatoSnFavorito: this.contatoForm.value.favorito ? 'S' : 'N'
       };
-  
+
       this.contatoService.cadastrarContato(contato).subscribe(
         () => {
           this.toastr.success('Contato cadastrado com sucesso!', 'Sucesso');

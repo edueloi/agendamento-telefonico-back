@@ -3,17 +3,17 @@
   height: 100vh;
 }
 
-// Sidebar fixo e responsivo
 #sidebar-wrapper {
   width: 250px;
   min-height: 100vh;
   background-color: #343a40;
   padding-top: 20px;
   position: fixed;
+  display: flex;
+  flex-direction: column; // 🔥 Faz com que os itens fiquem empilhados
   transition: all 0.3s;
 }
 
-// Título do menu
 .sidebar-heading {
   font-size: 1.3rem;
   text-align: center;
@@ -23,12 +23,10 @@
   border-bottom: 2px solid #555;
 }
 
-// Lista de botões
 .list-group {
-  width: 100%;
+  flex-grow: 1; // 🔥 Permite que os itens da lista ocupem o espaço disponível
 }
 
-// Estilo dos itens do menu
 .list-group-item {
   font-size: 1.1rem;
   display: flex;
@@ -37,17 +35,14 @@
   transition: background 0.3s ease-in-out;
 }
 
-// Ícones alinhados corretamente
 .material-icons {
   font-size: 1.5rem;
 }
 
-// Hover nos itens do menu
 .list-group-item:hover {
   background-color: #495057 !important;
 }
 
-// Conteúdo principal ajustado
 #page-content-wrapper {
   flex-grow: 1;
   padding: 20px;
@@ -55,7 +50,21 @@
   transition: margin 0.3s;
 }
 
-// Responsividade para telas menores
+/* 🔥 Garante que o botão 'Sair' fique no final */
+.logout-button {
+  margin-top: auto; 
+  background-color: #dc3545 !important;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.logout-button:hover {
+  background-color: #b52a37 !important;
+}
+
+/* 🔹 Responsividade para telas menores */
 @media (max-width: 768px) {
   #sidebar-wrapper {
     width: 100px;

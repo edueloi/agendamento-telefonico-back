@@ -10,12 +10,16 @@
         <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/consulta-contato">
             <span class="material-icons">search</span> Consulta
         </a>
-        <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/editar-contato">
+        <!-- <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/editar-contato">
             <span class="material-icons">edit</span> Editar
         </a>
         <a class="list-group-item list-group-item-action text-light bg-dark" routerLink="/favoritos">
             <span class="material-icons">star</span> Favoritos
-        </a>
+        </a> -->
+
+        <button class="list-group-item list-group-item-action text-light bg-danger logout-button" (click)="logout()">
+            <span class="material-icons">exit_to_app</span> Sair
+        </button>
     </div>
 </div>
 

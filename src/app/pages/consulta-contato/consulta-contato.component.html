@@ -1,1 +1,217 @@
-<p>consulta-contato works!</p>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Lista de Contatos</h4>
+            <div class="d-flex">
+                <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#cadastrarContatoModal">
+                    Cadastrar
+                </button>
+                <select class="form-select me-2" [(ngModel)]="filtroSelecionado" (change)="filtrarContatos()">
+                    <option value="">Todos</option>
+                    <option value="favoritos">Somente Favoritos</option>
+                    <option value="ativos">Somente Ativos</option>
+                    <option value="inativos">Somente Inativos</option>
+                </select>
+
+                <select class="form-select" [(ngModel)]="ordenacaoAtual" (change)="alterarOrdenacao(ordenacaoAtual)">
+                    <option value="id">Ordenar por ID</option>
+                    <option value="nome">Ordenar por Nome</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <input type="text" class="form-control mb-3" placeholder="Buscar por nome ou número..."
+                [(ngModel)]="filtroBusca" (input)="filtrarContatos()" />
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>ID</th>
+                          <th>Nome</th>
+                          <th>Email</th>
+                          <th>Celular</th>
+                          <th>Telefone</th>
+                          <th>Favorito</th>
+                          <th>Status</th>
+                          <th>Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Skeleton Loader -->
+                        <tr *ngIf="isLoading">
+                          <td colspan="8">
+                            <div class="skeleton-loader">
+                              <div class="skeleton-row"></div>
+                              <div class="skeleton-row"></div>
+                              <div class="skeleton-row"></div>
+                            </div>
+                          </td>
+                        </tr>
+                  
+                        <!-- Mensagem caso não haja contatos -->
+                        <tr *ngIf="!isLoading && contatosFiltrados.length === 0">
+                          <td colspan="8" class="text-center">
+                            <strong>Não há contatos cadastrados no momento.</strong>
+                          </td>
+                        </tr>
+                  
+                        <!-- Dados Reais -->
+                        <ng-container *ngIf="!isLoading">
+                          <tr *ngFor="let contato of contatosFiltrados">
+                            <td>{{ contato.contatoId }}</td>
+                            <td>{{ contato.contatoNome }}</td>
+                            <td>{{ contato.contatoEmail }}</td>
+                            <td>{{ contato.contatoCelular | mask: getMask(contato.contatoCelular) }}</td>
+                            <td>{{ contato.contatoTelefone | mask: getMask(contato.contatoTelefone) }}</td>
+                            <td>
+                              <span class="favorito-icone" (click)="alternarFavorito(contato)">
+                                <i [class.fas]="contato.contatoSnFavorito === 'S'"
+                                  [class.far]="contato.contatoSnFavorito !== 'S'" class="fa-star">
+                                </i>
+                              </span>
+                            </td>
+                            <td>
+                              <span [class.text-success]="contato.contatoSnAtivo === 'S'"
+                                [class.text-danger]="contato.contatoSnAtivo === 'N'">
+                                {{ contato.contatoSnAtivo === 'S' ? 'Ativo' : 'Inativo' }}
+                              </span>
+                            </td>
+                            <td>
+                              <button class="btn btn-primary btn-sm me-2" (click)="editarContato(contato)"
+                                data-bs-toggle="modal" data-bs-target="#editarContatoModal">
+                                Editar
+                              </button>
+                              <button class="btn btn-danger btn-sm me-2" (click)="prepararExclusao(contato)"
+                                data-bs-toggle="modal" data-bs-target="#confirmarExclusaoModal">
+                                Excluir
+                              </button>
+                              <button class="btn btn-secondary btn-sm acao-btn"
+                                (click)="alternarAtivoInativo(contato)">
+                                {{ contato.contatoSnAtivo === 'S' ? 'Inativar' : 'Ativar' }}
+                              </button>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+
+        </div>
+    </div>
+
+    <!-- Modal de Cadastro -->
+    <div class="modal fade" id="cadastrarContatoModal" #modalCadastro tabindex="-1"
+        aria-labelledby="cadastrarContatoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="cadastrarContatoModalLabel">Cadastrar Novo Contato</h5>
+                    <button type="button" class="btn-close" id="btnFecharModalCadastro" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="novoContato">
+                        <div class="mb-3">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" formControlName="nome" required />
+                        </div>
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email" class="form-control" formControlName="email" required />
+                        </div>
+                        <div class="mb-3">
+                            <label>Celular</label>
+                            <input type="text" class="form-control" formControlName="celular" mask="(00) 0000-0000||(00) 00000-0000" required />
+                        </div>
+                        <div class="mb-3">
+                            <label>Telefone</label>
+                            <input type="text" class="form-control" formControlName="telefone"
+                                mask="(00) 0000-0000||(00) 00000-0000" />
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" formControlName="favorito"
+                                id="favoritarContato">
+                            <label class="form-check-label" for="favoritarContato">
+                                Adicionar aos Favoritos
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" (click)="salvarNovoContato()">
+                        Cadastrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="editarContatoModal" tabindex="-1" aria-labelledby="editarContatoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Cabeçalho do Modal -->
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="editarContatoModalLabel">Editar Contato</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body" *ngIf="contatoEditando">
+                    <div class="mb-3">
+                        <label>Nome</label>
+                        <input type="text" class="form-control" [(ngModel)]="contatoEditando.contatoNome" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" [(ngModel)]="contatoEditando.contatoEmail" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Celular</label>
+                        <input type="text" class="form-control" [(ngModel)]="contatoEditando.contatoCelular"
+                            mask="(00) 0000-0000||(00) 00000-0000" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Telefone</label>
+                        <input type="text" class="form-control" [(ngModel)]="contatoEditando.contatoTelefone"
+                            mask="(00) 0000-0000||(00) 00000-0000" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" (click)="salvarEdicao()"
+                        data-bs-dismiss="modal">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal fade" id="confirmarExclusaoModal" tabindex="-1" aria-labelledby="confirmarExclusaoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmarExclusaoModalLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o contato <strong>{{ contatoParaExcluir?.contatoNome }}</strong>?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                    <button type="button" class="btn btn-danger" (click)="confirmarExclusao()"
+                        data-bs-dismiss="modal">Sim, Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
