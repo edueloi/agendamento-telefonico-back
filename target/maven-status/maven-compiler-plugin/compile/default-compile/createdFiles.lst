@@ -1,0 +1,4 @@
+com\meuprojeto\telefone_agendamento\model\Contato.class
+com\meuprojeto\telefone_agendamento\controller\ContatoController.class
+com\meuprojeto\telefone_agendamento\repository\ContatoRepository.class
+com\meuprojeto\telefone_agendamento\TelefoneAgendamentoApplication.class
