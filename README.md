@@ -4,7 +4,7 @@ Este é o Back-End do projeto Agendamento Telefônico, desenvolvido com Spring B
 
 ## 🚀 Tecnologias Utilizadas
 
-Java 17
+Java 23
 
 Spring Boot 3.4.2
 
@@ -20,7 +20,7 @@ JUnit 5 e Mockito (Testes)
 
 Antes de executar o projeto, certifique-se de ter instalado:
 
-Java 17 ou superior
+Java 23
 
 Maven
 
