@@ -144,11 +144,12 @@ Para configurar o banco de dados PostgreSQL no pgAdmin, siga os passos abaixo:
 1. Abra o pgAdmin e clique com o botão direito em Servers > Create > Server....
 2. Na aba General, defina um nome para o servidor (exemplo: PostgreSQL Local).
 3. Na aba Connection, preencha os campos:
-  ### . Host name/address: localhost
-  ### . Port: 5432 (padrão do PostgreSQL) 
-  ### . Maintenance database: postgres
-  ### . Username: Seu usuário do PostgreSQL
-  ### . Password: Sua senha do PostgreSQL
+   ```. Host name/address: localhost
+   . Port: 5432 (padrão do PostgreSQL) 
+   . Maintenance database: postgres
+   . Username: Seu usuário do PostgreSQL
+   . Password: Sua senha do PostgreSQL```
+  
 4. Clique em Save.
 
 ### 2️⃣ Criando o Banco de Dados
