@@ -1,59 +1,145 @@
-# TelefoneAgendamento
+# 📞 Agendamento Telefônico - Back-End
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
+Este é o Back-End do projeto Agendamento Telefônico, desenvolvido com Spring Boot e PostgreSQL.
 
-## Development server
+## 🚀 Tecnologias Utilizadas
 
-To start a local development server, run:
+Java 17
 
-```bash
-ng serve
+Spring Boot 3.4.2
+
+Spring Data JPA
+
+PostgreSQL
+
+Hibernate
+
+JUnit 5 e Mockito (Testes)
+
+## 📌 Pré-requisitos
+
+Antes de executar o projeto, certifique-se de ter instalado:
+
+Java 17 ou superior
+
+Maven
+
+PostgreSQL
+
+## 🔧 Configuração do Banco de Dados
+
+### O projeto utiliza PostgreSQL como banco de dados. No arquivo application.properties, configure as credenciais corretamente:
+
+```
+spring.datasource.url=jdbc:postgresql://localhost:5432/telefone_agendamento
+spring.datasource.username=SEU_USUARIO
+spring.datasource.password=SUA_SENHA
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📌 Nota: Substitua SEU_USUARIO e SUA_SENHA pelas credenciais do seu banco de dados.
 
-## Code scaffolding
+### 🛠️ Como Rodar o Projeto
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Clone o repositório:
 
-```bash
-ng generate component component-name
+git clone https://github.com/edueloi/agendamento-telefonico-back.git
+
+Acesse o diretório do projeto:
+
+cd agendamento-telefonico-back
+
+Compile e rode a aplicação usando Maven:
+
+mvn spring-boot:run
+
+A API estará disponível em: http://localhost:8080
+
+### 📑 Funcionalidades do Sistema
+
+O sistema inclui funcionalidades completas para o gerenciamento de contatos:
+
+📋 Cadastro de Contatos
+
+Nome, E-mail e Celular são obrigatórios
+
+Telefone fixo é opcional
+
+Opção de adicionar aos favoritos
+
+Validação de campos
+
+### 🔍 Consulta de Contatos
+
+Listagem completa de contatos cadastrados
+
+Filtros por favoritos, ativos e inativos
+
+Busca dinâmica por nome ou número
+
+Ordenação por ID ou Nome
+
+### ✏️ Edição de Contatos
+
+Atualização de qualquer campo cadastrado
+
+Manutenção da consistência dos dados
+
+### ❌ Exclusão de Contatos
+
+Confirmação antes de excluir
+
+Atualização automática da lista
+
+### 🔄 Ativação/Inativação de Contatos
+
+Contatos podem ser ativados ou inativados rapidamente
+
+Mudança dinâmica no status (verde para ativo, vermelho para inativo)
+
+### 🔗 APIs Disponíveis
+
+### Exemplo de Endpoints:
+
+```
+GET /contatos → Lista todos os contatos
+POST /contatos → Cadastra um novo contato
+PUT /contatos/{id} → Atualiza um contato existente
+DELETE /contatos/{id} → Remove um contato
+PATCH /contatos/{id}/favorito → Alterna status de favorito
+PATCH /contatos/inativar/{id} → Inativa um contato
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 🏗️ Compilando e Rodando Testes
 
-```bash
-ng generate --help
-```
+### Para rodar os testes unitários:
 
-## Building
+```mvn test```
 
-To build the project run:
+### Para gerar a versão final do sistema:
 
-```bash
-ng build
-```
+```mvn package```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+🎨 Destaques Visuais e Melhorias
 
-## Running unit tests
+API documentada e estruturada
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Integração com PostgreSQL otimizada
 
-```bash
-ng test
-```
+Log detalhado para acompanhamento das requisições
 
-## Running end-to-end tests
+Uso de boas práticas de desenvolvimento
 
-For end-to-end (e2e) testing, run:
 
-```bash
-ng e2e
-```
+## ✨ Créditos
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+📌 **Desenvolvido por:**  
+👨‍💻 **Engenheiro Eduardo Eloi** 🚀
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+📅 **Versão:** `1.0`  
+🔗 **Tecnologia:** `Spring Boot 3.4.2`
