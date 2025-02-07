@@ -165,13 +165,13 @@ Para configurar o banco de dados PostgreSQL no pgAdmin, siga os passos abaixo:
 
 Para criar as tabelas e o esquema do banco, execute o seguinte script no Query Tool do pgAdmin:
 ```
--- Exclui a tabela caso já exista
-DROP TABLE IF EXISTS desafio.contato;
-
--- Cria o esquema caso não exista
+-- Criar o esquema caso não exista
 CREATE SCHEMA IF NOT EXISTS desafio;
 
--- Cria a tabela 'contato' com constraints adicionais
+-- Excluir a tabela se já existir
+DROP TABLE IF EXISTS desafio.contato;
+
+-- Criar a tabela 'contato'
 CREATE TABLE desafio.contato (
     contato_id SERIAL PRIMARY KEY,
     contato_nome VARCHAR(100) NOT NULL,
@@ -195,10 +195,13 @@ BEGIN
     END IF;
 END $$;
 
--- Insere um exemplo de contato
+-- Inserir um exemplo de contato
 INSERT INTO desafio.contato (contato_nome, contato_email, contato_celular, contato_telefone, contato_sn_favorito, contato_sn_ativo)
 VALUES ('João Silva', 'joao@email.com', '11999999999', '1144444444', 'N', 'S')
-ON CONFLICT (contato_celular) DO NOTHING;  -- Evita erro caso já exista esse número cadastrado
+ON CONFLICT (contato_celular) DO NOTHING; -- Evita erro caso já exista esse número cadastrado
+
+-- Validar se a tabela foi criada corretamente
+SELECT * FROM desafio.contato;
 
 ```
 
